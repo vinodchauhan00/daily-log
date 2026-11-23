@@ -1,0 +1,23 @@
+name: daily-commit
+
+on:
+  schedule:
+    - cron: "15 6 * * *"   # roz 11:45 AM IST
+  workflow_dispatch:       # manual "Run workflow" button for testing
+
+permissions:
+  contents: write
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update timestamp and push
+        run: |
+          date -u > last-updated.txt
+          git config user.name "Vinod Chauhan"
+          git config user.email "vc8228209@gmail.com"
+          git add last-updated.txt
+          git commit -m "chore: daily update"
+          git push
